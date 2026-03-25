@@ -22,11 +22,18 @@ public struct ListPokemonType: View {
                 Text(resolvedType(type: pokeTypes[index]))
                     .padding(.horizontal, 12)
                     .background{
-                        Capsule()
-                            .fill(
-                                resolvedColorByType(pokeTypes[index])
-                            )
-                            .glassEffect()
+                        if #available(macOS 26.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+                            Capsule()
+                                .fill(
+                                    resolvedColorByType(pokeTypes[index])
+                                )
+                                .glassEffect()
+                        } else {
+                            Capsule()
+                                .fill(
+                                    resolvedColorByType(pokeTypes[index])
+                                )
+                        }
                     }
             }
         }
