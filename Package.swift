@@ -22,7 +22,8 @@ let package = Package(
     dependencies: [
         // If pokemon_shared is a local package in your workspace, adjust the path accordingly.
         .package(name: "pokemon_shared", path: "../pokemon_shared"),
-        .package(url: "https://github.com/SDWebImage/SDWebImageSwiftUI.git", from: "3.0.0")
+        .package(url: "https://github.com/SDWebImage/SDWebImageSwiftUI.git", from: "3.0.0"),
+        .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.4.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -31,7 +32,8 @@ let package = Package(
             name: "pokemon_design_system",
             dependencies: [
                 .product(name: "pokemon_shared", package: "pokemon_shared"),
-                .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI")
+                .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI"),
+                .product(name: "Lottie", package: "lottie-spm")
             ]
         ),
         .testTarget(

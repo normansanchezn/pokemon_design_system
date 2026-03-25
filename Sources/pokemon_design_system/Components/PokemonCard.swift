@@ -9,26 +9,30 @@ import SwiftUI
 
 public struct PokemonCard<ContentView: View>: View {
     
-    private let content: ContentView
+    private let contentView: ContentView
+    private let backgroundColor: Color
     
-    public init(content: ContentView) {
-        self.content = content
+    public init(@ViewBuilder contentView: () -> ContentView, backgroundColor: Color = Color.white) {
+        self.contentView = contentView()
+        self.backgroundColor = backgroundColor
     }
     
     public var body: some View {
-        VStack {
-            content
-                .padding()
+        VStack(spacing: 0) {
+            contentView
+                .padding(.horizontal, 8)
+                .padding(.vertical, 16)
         }
         .background {
             RoundedRectangle(cornerRadius: 40).fill(
-                Color.white.opacity(0.5)
+                backgroundColor.opacity(0.5)
             )
         }
     }
 }
 
-
 #Preview {
-    PokemonCard(content: Text("Hola"))
+    PokemonCard {
+        Text("Hola")
+    }
 }

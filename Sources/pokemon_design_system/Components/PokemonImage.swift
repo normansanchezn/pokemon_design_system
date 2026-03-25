@@ -34,6 +34,6 @@ public struct PokemonImage: View {
                 Color.clear
             }
         }
-        .frame(width: 100, height: 100)
+        .frame(width: 70, height: 70)
     }
 }
