@@ -11,10 +11,16 @@ public struct PokemonCard<ContentView: View>: View {
     
     private let contentView: ContentView
     private let backgroundColor: Color
+    private let action: EmptyAction
     
-    public init(@ViewBuilder contentView: () -> ContentView, backgroundColor: Color = Color.white) {
+    public init(
+        @ViewBuilder contentView: () -> ContentView,
+        backgroundColor: Color = Color.white,
+        _ action: @escaping EmptyAction = {}
+    ) {
         self.contentView = contentView()
         self.backgroundColor = backgroundColor
+        self.action = action
     }
     
     public var body: some View {
@@ -28,6 +34,9 @@ public struct PokemonCard<ContentView: View>: View {
                 backgroundColor.opacity(0.5)
             )
         }
+        .onTapGesture(perform: {
+            action()
+        })
     }
 }
 

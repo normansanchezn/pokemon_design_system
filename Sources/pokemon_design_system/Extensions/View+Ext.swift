@@ -93,3 +93,36 @@ public extension View {
         }
     }
 }
+
+public extension View {
+    func cardGradient(for types: [PokemonType]) -> LinearGradient {
+        let colors = types.prefix(2).map { resolvedColorByType($0).opacity(0.95) }
+
+        switch colors.count {
+        case 0:
+            return LinearGradient(
+                colors: [
+                    Color.gray.opacity(0.45),
+                    Color.black.opacity(0.15)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        case 1:
+            return LinearGradient(
+                colors: [
+                    colors[0],
+                    colors[0].opacity(0.35)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        default:
+            return LinearGradient(
+                colors: Array(colors),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+    }
+}

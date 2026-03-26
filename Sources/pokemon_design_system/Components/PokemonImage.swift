@@ -10,9 +10,11 @@ import SDWebImageSwiftUI
 
 public struct PokemonImage: View {
     public let pokeUrl: String
+    public let size: CGFloat
 
-    public init(pokeUrl: String) {
+    public init(pokeUrl: String, size: CGFloat = 70) {
         self.pokeUrl = pokeUrl
+        self.size = size
     }
 
     public var body: some View {
@@ -34,6 +36,6 @@ public struct PokemonImage: View {
                 Color.clear
             }
         }
-        .frame(width: 70, height: 70)
+        .frame(width: size, height: size)
     }
 }
