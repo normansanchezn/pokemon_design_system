@@ -12,7 +12,7 @@ public struct PokemonImage: View {
     public let pokeUrl: String
     public let size: CGFloat
 
-    public init(pokeUrl: String, size: CGFloat = 70) {
+    public init(pokeUrl: String, size: CGFloat = PokemonTheme.shared.sizes.pokemonSprite) {
         self.pokeUrl = pokeUrl
         self.size = size
     }

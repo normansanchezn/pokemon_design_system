@@ -12,6 +12,7 @@ public struct PokemonBackground<ContentView: View>: View {
     private let contentView: ContentView
     @State private var animate: Bool = false
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.pokemonTheme) private var theme
     
     public init(@ViewBuilder contentView: () -> ContentView) {
         self.contentView = contentView()
@@ -19,30 +20,27 @@ public struct PokemonBackground<ContentView: View>: View {
     
     public var body: some View {
         ZStack {
-            // Base gradient background
             LinearGradient(
-                colors: gradientColors,
+                colors: theme.gradients.appBackground(for: colorScheme, theme: theme),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
             
-            // Animated color blobs
             ZStack {
-                blob(color: Color(red: 0.98, green: 0.19, blue: 0.24).opacity(0.35), size: 280)
+                blob(color: theme.colors.brandRed.opacity(0.35), size: 280)
                     .offset(x: animate ? -120 : -40, y: animate ? -180 : -120)
-                blob(color: Color(.systemBlue).opacity(0.30), size: 320)
+                blob(color: theme.colors.brandBlue.opacity(0.30), size: 320)
                     .offset(x: animate ? 140 : 80, y: animate ? 160 : 100)
-                blob(color: Color(.systemYellow).opacity(0.25), size: 220)
+                blob(color: theme.colors.brandYellow.opacity(0.25), size: 220)
                     .offset(x: animate ? -30 : -10, y: animate ? 180 : 120)
             }
             .blur(radius: 40)
             .animation(.easeInOut(duration: 8).repeatForever(autoreverses: true), value: animate)
             .allowsHitTesting(false)
             
-            // Subtle Poké Ball overlay
             PokeBallOverlay()
-                .fill(colorScheme == .dark ? Color.white.opacity(0.05) : Color.black.opacity(0.05))
+                .fill(theme.colors.pokeballOverlay(for: colorScheme))
                 .frame(width: 420, height: 420)
                 .rotationEffect(.degrees(animate ? 5 : -5))
                 .offset(x: animate ? 30 : -10, y: animate ? -20 : 10)
@@ -50,23 +48,12 @@ public struct PokemonBackground<ContentView: View>: View {
                 .animation(.easeInOut(duration: 10).repeatForever(autoreverses: true), value: animate)
                 .allowsHitTesting(false)
             
-            // Content on top
             contentView
                 .padding(.top, 0)
         }
         .onAppear { animate = true }
     }
-    
-    // Theme-aware gradient
-    private var gradientColors: [Color] {
-        if colorScheme == .dark {
-            return [Color(red: 0.05, green: 0.07, blue: 0.18), Color(red: 0.10, green: 0.14, blue: 0.32)]
-        } else {
-            return [Color(red: 0.78, green: 0.88, blue: 1.0), Color.white]
-        }
-    }
-    
-    // MARK: - Helpers
+
     private func blob(color: Color, size: CGFloat) -> some View {
         Circle()
             .fill(color)
@@ -101,15 +88,14 @@ private struct PokeBallOverlay: Shape {
 // MARK: - Preview
 #Preview("PokemonBackground") {
     PokemonBackground {
-        VStack(spacing: 16) {
-            Text("Pokedex")
-                .font(.largeTitle.bold())
-                .foregroundStyle(.primary)
-            Text("Atrapa'los a todos!")
-                .font(.headline)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
+    VStack(spacing: 16) {
+        Text("Pokedex")
+            .font(PokemonTheme.shared.typography.hero)
+            .foregroundStyle(PokemonTheme.shared.colors.textPrimary(for: .dark))
+        Text("Atrapa'los a todos!")
+            .font(PokemonTheme.shared.typography.headline)
+            .foregroundStyle(PokemonTheme.shared.colors.textSecondary(for: .dark))
     }
+    .padding()
 }
-
+}

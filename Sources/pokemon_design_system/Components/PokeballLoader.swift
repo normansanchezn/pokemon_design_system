@@ -14,7 +14,7 @@ import Lottie
 public struct PokeballLoader: View {
     private let size: CGFloat
 
-    public init(size: CGFloat = 140) {
+    public init(size: CGFloat = PokemonTheme.shared.sizes.loader) {
         self.size = size
     }
 
@@ -82,7 +82,7 @@ private struct LottieView: UIViewRepresentable {
 public struct PokeballLoader: View {
     private let size: CGFloat
 
-    public init(size: CGFloat = 140) {
+    public init(size: CGFloat = PokemonTheme.shared.sizes.loader) {
         self.size = size
     }
 

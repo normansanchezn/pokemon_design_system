@@ -3,23 +3,31 @@ import pokemon_shared
 
 public struct PokemonGridView: View {
     private let pokemons: [Pokemon]
+    private let onItemAppear: ((Pokemon) -> Void)?
     private let action: (Pokemon) -> Void
+    @Environment(\.pokemonTheme) private var theme
+    @Environment(\.colorScheme) private var colorScheme
     
-    public init(pokemons: [Pokemon], action: @escaping (Pokemon) -> Void) {
+    public init(
+        pokemons: [Pokemon],
+        onItemAppear: ((Pokemon) -> Void)? = nil,
+        action: @escaping (Pokemon) -> Void
+    ) {
         self.pokemons = pokemons
+        self.onItemAppear = onItemAppear
         self.action = action
     }
     
     public var body: some View {
         LazyVGrid(
             columns: Array(
-                repeating: GridItem(
-                    .flexible(),
-                    spacing: 12
+            repeating: GridItem(
+                .flexible(),
+                    spacing: theme.layout.gridSpacing
                 ),
                 count: 3
             ),
-            spacing: 12
+            spacing: theme.layout.gridSpacing
         ) {
             ForEach(
                 pokemons,
@@ -29,25 +37,28 @@ public struct PokemonGridView: View {
                     gridItem(pokemon)
                 }, backgroundColor: .clear)
                 .background {
-                    RoundedRectangle(cornerRadius: 40)
-                        .fill(cardGradient(for: pokemon.types))
+                    RoundedRectangle(cornerRadius: theme.radius.xl)
+                        .fill(cardGradient(for: pokemon.types, theme: theme, colorScheme: colorScheme))
+                }
+                .onAppear {
+                    onItemAppear?(pokemon)
                 }
             }
         }
-        .padding(.horizontal, 8)
+        .padding(.horizontal, theme.layout.gridHorizontalPadding)
     }
     
     // MARK: - Item Views
     private func gridItem(_ pokemon: Pokemon) -> some View {
-        VStack(spacing: 8) {
+        VStack(spacing: theme.spacing.sm) {
             PokemonImage(pokeUrl: pokemon.url)
                 .onTapGesture {
                     action(pokemon)
-                }
+            }
             Text(pokemon.name.capitalized)
-                .font(.headline)
-                .foregroundStyle(.white)
-                .shadow(color: .black.opacity(0.2), radius: 1, x: 0, y: 1)
+                .font(theme.typography.headline)
+                .foregroundStyle(theme.colors.textPrimary(for: colorScheme))
+                .shadow(color: theme.colors.textMuted(for: colorScheme).opacity(0.25), radius: 1, x: 0, y: 1)
             ListPokemonType(pokeTypes: pokemon.types)
         }
         .frame(maxWidth: .infinity)

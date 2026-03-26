@@ -10,12 +10,14 @@ import SwiftUI
 public struct PokemonCard<ContentView: View>: View {
     
     private let contentView: ContentView
-    private let backgroundColor: Color
+    private let backgroundColor: Color?
     private let action: EmptyAction
+    @Environment(\.pokemonTheme) private var theme
+    @Environment(\.colorScheme) private var colorScheme
     
     public init(
         @ViewBuilder contentView: () -> ContentView,
-        backgroundColor: Color = Color.white,
+        backgroundColor: Color? = nil,
         _ action: @escaping EmptyAction = {}
     ) {
         self.contentView = contentView()
@@ -26,13 +28,21 @@ public struct PokemonCard<ContentView: View>: View {
     public var body: some View {
         VStack(spacing: 0) {
             contentView
-                .padding(.horizontal, 8)
-                .padding(.vertical, 16)
+                .padding(.horizontal, theme.layout.cardContentHorizontalPadding)
+                .padding(.vertical, theme.layout.cardContentVerticalPadding)
         }
         .background {
-            RoundedRectangle(cornerRadius: 40).fill(
-                backgroundColor.opacity(0.5)
-            )
+            let fillColor = backgroundColor ?? theme.colors.glassSurface(for: colorScheme)
+
+            RoundedRectangle(cornerRadius: theme.radius.xl, style: .continuous)
+                .fill(fillColor)
+                .overlay {
+                    RoundedRectangle(cornerRadius: theme.radius.xl, style: .continuous)
+                        .strokeBorder(
+                            theme.colors.glassBorder(for: colorScheme),
+                            lineWidth: 1
+                        )
+                }
         }
         .onTapGesture(perform: {
             action()
