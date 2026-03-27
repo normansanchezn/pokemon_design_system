@@ -27,20 +27,17 @@ public struct ListPokemonType: View {
                 .padding(.horizontal, theme.spacing.xxs)
                 .foregroundStyle(theme.colors.textOnTint)
                 .background{
-                        if #available(macOS 26.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
-                            Capsule()
-                                .fill(
-                                    resolvedColorByType(pokeTypes[index], theme: theme)
-                                )
-                                .glassEffect()
-                        } else {
-                            Capsule()
-                                .fill(
-                                    resolvedColorByType(pokeTypes[index], theme: theme)
-                                )
-                        }
-                    }
+                    Capsule()
+                        .fill(
+                            resolvedColorByType(pokeTypes[index], theme: theme)
+                        )
+                        .glassEffect()
+                }
             }
         }
     }
+}
+
+#Preview {
+    ListPokemonType(pokeTypes: [PokemonType.bug, PokemonType.dark])
 }

@@ -39,7 +39,7 @@ public extension View {
             return LinearGradient(
                 colors: [
                     colors[0],
-                    colors[0].opacity(0.35)
+                    colors[0]
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
