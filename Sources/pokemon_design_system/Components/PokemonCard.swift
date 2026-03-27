@@ -9,23 +9,27 @@ import SwiftUI
 
 public struct PokemonCard<ContentView: View>: View {
     
+    @Environment(\.pokemonTheme) private var theme
+    @Environment(\.colorScheme) private var colorScheme
+    
     private let contentView: ContentView
     private let backgroundColor: Color?
     private let gradient: LinearGradient?
     private let action: EmptyAction
-    @Environment(\.pokemonTheme) private var theme
-    @Environment(\.colorScheme) private var colorScheme
+    private let imageRes: String?
     
     public init(
         @ViewBuilder contentView: () -> ContentView,
         backgroundColor: Color? = nil,
         gradient: LinearGradient? = nil,
+        imageRes: String? = nil,
         _ action: @escaping EmptyAction = {}
     ) {
         self.contentView = contentView()
         self.backgroundColor = backgroundColor
         self.gradient = gradient
         self.action = action
+        self.imageRes = imageRes
     }
     
     public var body: some View {
@@ -35,7 +39,11 @@ public struct PokemonCard<ContentView: View>: View {
                 .padding(.vertical, theme.layout.cardContentVerticalPadding)
         }
         .background {
-            cardBackground
+            if imageRes != nil {
+                Image(imageRes!).resizable().frame(maxWidth: .infinity)
+            } else {
+                cardBackground
+            }
         }
         .onTapGesture(perform: {
             action()

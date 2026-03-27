@@ -31,7 +31,9 @@ public struct ListPokemonType: View {
                         .fill(
                             resolvedColorByType(pokeTypes[index], theme: theme)
                         )
+                        #if os(iOS)
                         .glassEffect()
+                        #endif
                 }
             }
         }
