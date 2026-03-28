@@ -82,8 +82,8 @@ public extension PokemonTheme {
         public let neutralGradientStartLight = Color(red: 0.74, green: 0.82, blue: 0.93)
         public let neutralGradientEndLight = Color(red: 0.60, green: 0.69, blue: 0.84)
         
-        public let fieldBackgroundColorDark = Color.blue.opacity(0.05)
-        public let fieldBackgroundColorLight = Color.blue.opacity(0.05)
+        public let fieldBackgroundColorDark = Color.blue.opacity(0.25)
+        public let fieldBackgroundColorLight = Color.blue.opacity(0.25)
 
         public init() {}
 
