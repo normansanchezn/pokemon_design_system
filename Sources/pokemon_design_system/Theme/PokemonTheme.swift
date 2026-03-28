@@ -81,6 +81,9 @@ public extension PokemonTheme {
         public let neutralGradientEndDark = Color.black.opacity(0.15)
         public let neutralGradientStartLight = Color(red: 0.74, green: 0.82, blue: 0.93)
         public let neutralGradientEndLight = Color(red: 0.60, green: 0.69, blue: 0.84)
+        
+        public let fieldBackgroundColorDark = Color.blue.opacity(0.05)
+        public let fieldBackgroundColorLight = Color.blue.opacity(0.05)
 
         public init() {}
 
@@ -114,6 +117,10 @@ public extension PokemonTheme {
 
         public func textMuted(for colorScheme: ColorScheme) -> Color {
             colorScheme == .dark ? textMutedDark : textMutedLight
+        }
+        
+        public func fieldBackgroundColor(for colorScheme: ColorScheme) -> Color {
+            colorScheme == .dark ? fieldBackgroundColorDark : fieldBackgroundColorLight
         }
 
         public func neutralGradient(for colorScheme: ColorScheme) -> [Color] {
